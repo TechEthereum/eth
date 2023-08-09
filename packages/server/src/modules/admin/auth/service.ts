@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AdminUserService } from '../user/service';
 
@@ -10,7 +10,7 @@ export class AdminAuthService {
     const user = await this.usersService.findOne({ username });
 
     if (user?.password !== password) {
-      throw new UnauthorizedException();
+      throw new BadRequestException('账号或密码错误');
     }
 
     const payload = { username: user.username, sub: user.id };

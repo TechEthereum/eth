@@ -5,7 +5,7 @@ import { IsEmail, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 export class CreateAdminUserDto implements UserModel {
   id: string;
 
-  @IsEmail()
+  @IsEmail({}, { message: '邮箱格式不正确' })
   @IsNotEmpty({ message: '账号不能为空' })
   @MaxLength(20, { message: '账号长度不能超过 20' })
   @MinLength(6, { message: '账号长度不能少于 6' })

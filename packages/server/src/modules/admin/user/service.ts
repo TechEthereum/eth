@@ -1,6 +1,8 @@
 import { AdminUser } from '@/entities';
+import { ListQuery, UserModel } from '@eth/types';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { pickBy } from 'lodash';
 import { Repository } from 'typeorm';
 import { CreateAdminUserDto, UpdateAdminUserDto } from './dto';
 
@@ -15,7 +17,7 @@ export class AdminUserService {
     const res = await this.findOne({ username: body.username });
 
     if (res) {
-      throw new ConflictException('User already exists');
+      throw new ConflictException('数据已存在');
     }
 
     const user = await this.service.create(body);
@@ -23,15 +25,19 @@ export class AdminUserService {
     return this.service.save(user);
   }
 
-  async findAll(query?: { current?: number; pageSize?: number }) {
-    const { current = 1, pageSize = 10 } = query || {};
-    const queryBuilder = this.service.createQueryBuilder('data');
+  async findAll(query?: ListQuery<UserModel>) {
+    const { current = 1, pageSize = 10, sorter = '', ...restQuery } = query || {};
+    const [field, order] = sorter.split(':');
+    const finalOrder = field ? { [field]: order === 'ascend' ? 'ASC' : 'DESC' } : undefined;
+    const finalWhere = pickBy(restQuery, (v) => (v ?? '') !== '');
 
-    const [data, total] = await queryBuilder
-      .skip((current - 1) * pageSize)
-      .take(pageSize)
-      .orderBy('data.createdAt', 'DESC')
-      .getManyAndCount();
+    const [data, total] = await this.service.findAndCount({
+      skip: (current - 1) * pageSize,
+      take: pageSize,
+      select: ['id', 'username', 'createdAt', 'updatedAt'],
+      order: finalOrder,
+      where: finalWhere,
+    });
 
     return { data, total };
   }

@@ -1,5 +1,5 @@
 import { AdminGuard } from '@/decorators';
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common';
 import { CreateAdminUserDto, UpdateAdminUserDto } from './dto';
 import { AdminUserService } from './service';
 
@@ -20,8 +20,8 @@ export class AdminUserController {
   }
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  findAll(@Query() query) {
+    return this.service.findAll(query);
   }
 
   @Get(':id')

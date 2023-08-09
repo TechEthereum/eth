@@ -1,14 +1,13 @@
 # 开始
 
-- [pnpm](https://pnpm.io/zh/)
-- [vite](https://cn.vitejs.dev/)
-- [typescript](https://www.typescriptlang.org/zh/)
-- [react](https://react.dev/)
-- [nest](https://nestjs.com/)
-- [ant-design](https://ant.design/index-cn/)
-- [typeorm](https://typeorm.io/)
+## packages
 
-## shared
+- app 前台应用
+- admin 后台管理
+- server 服务端
+- shared 共享模块
+
+### shared
 
 共享模块
 
@@ -16,7 +15,7 @@
 pnpm create vite shared
 ```
 
-## app
+### app
 
 H5 应用
 
@@ -24,7 +23,7 @@ H5 应用
 pnpm create vite app
 ```
 
-## admin
+### admin
 
 后台管理系统
 
@@ -32,7 +31,7 @@ pnpm create vite app
 pnpm create vite admin
 ```
 
-## server
+### server
 
 服务端
 
@@ -41,3 +40,15 @@ pnpm i -g @nestjs/cli
 
 nest new server
 ```
+
+## 相关文档
+
+- [pnpm](https://pnpm.io/zh/)
+- [vite](https://cn.vitejs.dev/)
+- [typescript](https://www.typescriptlang.org/zh/)
+- [react](https://react.dev/)
+- [nest](https://nestjs.com/)
+- [ant-design](https://ant.design/index-cn/)
+- [typeorm](https://typeorm.io/)
+- [react-router](https://reactrouter.com/)
+- [recoil](https://recoiljs.org/)
