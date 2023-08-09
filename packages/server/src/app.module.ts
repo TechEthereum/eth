@@ -1,7 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import config from './config';
+import { AuthGuard } from './guards';
+import { adminModule } from './modules/admin';
+import { appModule } from './modules/app';
 
 @Module({
   imports: [
@@ -15,8 +20,15 @@ import config from './config';
         return configService.get('database');
       },
     }),
+    ...adminModule,
+    ...appModule,
   ],
-  controllers: [],
-  providers: [],
+  providers: [
+    JwtService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule {}

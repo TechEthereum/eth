@@ -6,6 +6,7 @@
 - [react](https://react.dev/)
 - [nest](https://nestjs.com/)
 - [ant-design](https://ant.design/index-cn/)
+- [typeorm](https://typeorm.io/)
 
 ## shared
 
