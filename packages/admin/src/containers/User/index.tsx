@@ -1,4 +1,5 @@
 import { createUser, fetchUser, removeUser, updateUser } from '@/api';
+import { auditColumn, idColumn } from '@/hooks';
 import { User } from '@/types/api';
 import { convertSorter, messageSuccess } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
@@ -13,33 +14,14 @@ export function TableList() {
   const [currentRow, setCurrentRow] = useState<User>();
 
   const columns: ProColumns<User>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      ellipsis: true,
-      copyable: true,
-      width: 250,
-    },
+    idColumn,
     {
       title: '账号',
       dataIndex: 'username',
+      ellipsis: true,
+      copyable: true,
     },
-    {
-      title: '创建时间',
-      sorter: true,
-      hideInSearch: true,
-      width: 200,
-      dataIndex: 'createdAt',
-      valueType: 'dateTime',
-    },
-    {
-      title: '更新时间',
-      sorter: true,
-      hideInSearch: true,
-      width: 200,
-      dataIndex: 'updatedAt',
-      valueType: 'dateTime',
-    },
+    auditColumn,
     {
       title: '操作',
       dataIndex: 'option',
@@ -115,6 +97,7 @@ export function TableList() {
 
           setUserOpen(false);
           actionRef?.current?.reload();
+          messageSuccess();
         }}
         modalProps={{ destroyOnClose: true }}
         initialValues={currentRow}

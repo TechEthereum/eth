@@ -10,7 +10,7 @@ export class AdminUserController {
 
   @Get('profile')
   async profile(@Req() req) {
-    const { username } = req.USER;
+    const { username } = req.requestSender;
     return this.service.findOne({ username });
   }
 

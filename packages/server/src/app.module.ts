@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
@@ -31,4 +31,10 @@ import { appModule } from './modules/app';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    // [RequestMethod.POST].forEach((method) => {
+    //   consumer.apply(AuditMiddleware).forRoutes({ path: '*', method });
+    // });
+  }
+}

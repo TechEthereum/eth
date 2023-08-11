@@ -25,3 +25,10 @@ export type ListQuery<T> = T & {
    */
   sorter?: string;
 };
+
+export interface AuditInfo {
+  createdAt?: Date;
+  updatedAt?: Date;
+  createdBy?: string;
+  updatedBy?: string;
+}

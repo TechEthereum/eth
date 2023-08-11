@@ -1,20 +1,12 @@
 import { UserModel } from '@/types';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
+import { BaseEntityWithAudit } from '../common';
 
 @Entity()
-export class AdminUser implements UserModel {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class AdminUser extends BaseEntityWithAudit implements UserModel {
   @Column({ unique: true })
   username: string;
 
   @Column()
   password: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

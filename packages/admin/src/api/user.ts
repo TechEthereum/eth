@@ -1,6 +1,10 @@
 import { ListQuery, ListResponse, User } from '@/types';
 import { request } from './util';
 
+export function fetchCurrentUser(): Promise<User> {
+  return request.get('/user/profile');
+}
+
 export function fetchUser(params: ListQuery<User>): Promise<ListResponse<User>> {
   return request.get('/user', { params });
 }

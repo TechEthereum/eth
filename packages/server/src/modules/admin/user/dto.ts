@@ -17,8 +17,9 @@ export class CreateAdminUserDto implements UserModel {
   password: string;
 
   createdAt: Date;
-
   updatedAt: Date;
+  createdBy?: string;
+  updatedBy?: string;
 }
 
 export class UpdateAdminUserDto extends PartialType(CreateAdminUserDto) {}

@@ -1,0 +1,20 @@
+.audit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .auditItem {
+    display: flex;
+
+    .auditTime {
+      width: 220px;
+      flex-shrink: 0;
+    }
+
+    .auditUser {
+      width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

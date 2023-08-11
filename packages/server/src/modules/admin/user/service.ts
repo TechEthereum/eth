@@ -1,6 +1,7 @@
 import { AdminUser } from '@/entities';
 import { ListQuery, UserModel } from '@eth/types';
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { pickBy } from 'lodash';
 import { Repository } from 'typeorm';
@@ -11,6 +12,7 @@ export class AdminUserService {
   constructor(
     @InjectRepository(AdminUser)
     private readonly service: Repository<AdminUser>,
+    @Inject(REQUEST) private request: any,
   ) {}
 
   async create(body: CreateAdminUserDto) {
@@ -20,6 +22,7 @@ export class AdminUserService {
       throw new ConflictException('数据已存在');
     }
 
+    body.createdBy = this.getRequestSender();
     const user = await this.service.create(body);
 
     return this.service.save(user);
@@ -34,7 +37,6 @@ export class AdminUserService {
     const [data, total] = await this.service.findAndCount({
       skip: (current - 1) * pageSize,
       take: pageSize,
-      select: ['id', 'username', 'createdAt', 'updatedAt'],
       order: finalOrder,
       where: finalWhere,
     });
@@ -47,10 +49,21 @@ export class AdminUserService {
   }
 
   update(id: string, body: UpdateAdminUserDto) {
+    body.updatedBy = this.getRequestSender();
     return this.service.update({ id }, body);
   }
 
   remove(id: string) {
     return this.service.delete(id);
+  }
+
+  getRequestSender() {
+    const { requestSender } = this.request;
+
+    if (!requestSender?.username) {
+      return;
+    }
+
+    return requestSender.username;
   }
 }
